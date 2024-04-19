@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { Product, ProductDoc } from "../types/product";
 import { initProducts } from "../data-init";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, addDoc, QueryDocumentSnapshot } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -15,6 +15,7 @@ const firebaseConfig = {
   appId: "1:129496457942:web:a043887ad3087251b59f77",
   measurementId: "G-ZKF3MN5KLG"
 };
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
@@ -42,7 +43,8 @@ export const useProductStore = defineStore("ProductStore", {
                 id: doc.id,
                 data: productData
               };
-            });
+            }
+          );
           }
           this.initialized = true;
         }

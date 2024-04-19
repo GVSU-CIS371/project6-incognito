@@ -1,8 +1,5 @@
 <template>
-  <v-card
-    class="vcard"
-    max-width="374"
-  >
+  <v-card class="vcard" max-width="374">
     <v-img
       height="250"
       :src="product.data.image"
@@ -16,12 +13,10 @@
 
     <v-card-title>
       <template v-if="editMode">{{ product.data.name }}</template>
-      <template v-else>
-        <v-text-field v-model="editedProduct.name" label="Name"></v-text-field>
-      </v-card-title>
-      </template>
-    <v-card-text>
+      <template v-else><v-text-field v-model="editedProduct.name" label="Name"></v-text-field></template>
+    </v-card-title>
 
+    <v-card-text>
       <v-row
         align="center"
         class="mx-0"
@@ -50,7 +45,7 @@
       </template>
       <template v-else>
         <v-text-field v-model="editedProduct.price" label="Price"></v-text-field>
-      <template>
+      </template>
       <div>{{ !editMode ? product.data.description : '' }}</div>
       <v-textarea v-model="editedProduct.description" label="Description" v-if="editMode"></v-textarea>
     </v-card-text>
