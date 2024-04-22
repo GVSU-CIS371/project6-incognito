@@ -70,7 +70,7 @@
     </template>
     <template v-else>
       <v-btn @click="confirmUpdate" color="Success">Update</v-btn>
-      <!-- <v-btn @click="cancelUpdate" color="error">Cancel</v-btn> -->
+      <v-btn @click="cancelUpdate" color="error">Cancel</v-btn> 
     </template>
   </v-card>
 </template>
@@ -80,6 +80,7 @@ import { ref } from "vue";
 import { ProductDoc } from "../types/product.ts";
 // import { deleteProduct, updateProduct } from "@/services/TBD";
 import { useProductStore } from "../stores/ProductStore";
+
 const productStore = useProductStore();
 
 type ProductType = {
@@ -89,19 +90,28 @@ const props = defineProps<ProductType>();
 
 const editMode = ref(false);
 const editedProduct = ref(props.product);
+
 console.log(editedProduct);
+
 const enableEditMode = () => {
   editMode.value = true;
 };
 
-// const cancelEdit = () => {
-//   editMode.value = false;
-//   editedProduct.data.value = { ...product.data };
-// };
+const cancelUpdate = () => {
+  const ProductsRef = doc(db, "Products", product.id);
+  editMode.value = false;
+  editedProduct = productStore.originalProduct(product.id);
+};
 
 const confirmDelete = () => {
   if (confirm("Are you sure you want to delete this item?")) {
-    // productStore.deletePoduct(editedProduct.value);
+    db.collection("products").doc(editedProduct.value.id).delete()
+      .then(() => {
+        console.log("Document successfully deleted!");
+      })
+      .catch((error) => {
+        console.error("Error deleting document: ", error);
+      });
   }
 };
 
@@ -115,7 +125,20 @@ const confirmDelete = () => {
 
 const confirmUpdate = () => {
   if (confirm("Are you sure you want to update this product?")) {
-    // updateProduct();
+    db.collection("products").doc(editedProduct.value.id).update({
+      name: editedProduct.value.name,
+      rating: editedProduct.value.rating,
+      price: editedProduct.value.price,
+      description: editedProduct.value.description
+    })
+      .then(() => {
+        console.log("Document successfully updated!");
+        originalProduct.value = JSON.parse(JSON.stringify(editedProduct.value));
+        editMode.value = false;
+      })
+      .catch((error) => {
+        console.error("Error updating document: ", error);
+      });
   }
 };
 

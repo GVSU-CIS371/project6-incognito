@@ -64,5 +64,10 @@ export const useProductStore = defineStore("ProductStore", {
         (product) => product.data.rating >= minRating
       );
     },
+    OriginalProductData(productId: string) {
+      return this.products.filter(
+        (product) => product.id === productId
+      );
+    },
   },
 });
