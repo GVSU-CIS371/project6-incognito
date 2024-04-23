@@ -12,7 +12,7 @@
     </v-card-subtitle>
 
     <v-card-title>
-      <template v-if="editMode">{{ editedProduct.data.name }}</template>
+      <template v-if="!editMode">{{ editedProduct.data.name }}</template>
       <template v-else>
         <v-text-field
           v-model="editedProduct.data.name"
