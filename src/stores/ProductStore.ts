@@ -9,8 +9,11 @@ import {
   setDoc,
   doc,
   deleteDoc,
-  addDoc
+  updateDoc,
+  addDoc,
+  updateDoc
 } from "firebase/firestore";
+import { update } from "firebase/database";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -25,7 +28,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+const db = getFirestore(app);
 
 export const useProductStore = defineStore("ProductStore", {
   state: () => ({
@@ -54,7 +57,6 @@ export const useProductStore = defineStore("ProductStore", {
           };
         }) as ProductDoc[];
       }
-      
     },
     async addProduct(newProductData: Product) {
       try {
@@ -64,6 +66,17 @@ export const useProductStore = defineStore("ProductStore", {
         this.products.push({ id: docRef.id, data: newProductData });
       } catch (error) {
         console.error("Error adding product: ", error);
+      }
+    },
+    async updateProduct(updatedData: ProductDoc){
+      try{
+        const docRef = doc(db, "products", updatedData.id);
+        await updateDoc(docRef, {data: updatedData.data});
+        this.products.find(
+          (product) => product.id === updatedData.id
+        );
+      } catch(error) {
+        console.error("Error updating product: ", error);
       }
     },
     filterByCategory(category: string) {
@@ -76,15 +89,15 @@ export const useProductStore = defineStore("ProductStore", {
         (product) => product.data.rating >= minRating
       );
     },
-    originalProductData(productId: string) {
-      return this.products.find(
-        (product) => product.id === productId
-      );
+    originalProductData(product: ProductDoc) {
+      
     },
-    deleteSelected(productId: string){
-      deleteDoc(doc(db, "products", productId));
-    }
+    async deleteProduct(theProduct: ProductDoc){
+      try{
+        await deleteDoc(doc(db, "products", theProduct.id));
+      } catch(error){
+        console.error("Error deleting product: ", error);
+      }
+    },
   },
 });
-export { doc };
-

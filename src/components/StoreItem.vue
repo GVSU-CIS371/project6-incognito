@@ -79,7 +79,7 @@
 import { ref } from "vue";
 import { ProductDoc } from "../types/product.ts";
 // import { deleteProduct, updateProduct } from "@/services/TBD";
-import { useProductStore, db, doc } from "../stores/ProductStore";
+import { useProductStore } from "../stores/ProductStore";
 
 const productStore = useProductStore();
 
@@ -98,42 +98,20 @@ const enableEditMode = () => {
 };
 
 const cancelUpdate = () => {
-  const original_product = productStore.products.find((ogproduct) => ogproduct.id === editedProduct.value.id);
-  if(original_product){
-    editedProduct.data.rating = original_product.data.rating;
-    editedProduct.data.name = original_product.data.name;
-    editedProduct.data.description = original_product.data.description;
-    editedProduct.data.stock = original_product.data.stock;
-  }
+  //revert to original changes but how?
   editMode.value = false;
 };
 
 const confirmDelete = () => {
   if (confirm("Are you sure you want to delete this item?")) {
-    productStore.deleteProduct(editedProduct.value.id);
+    productStore.deleteProduct(editedProduct);
   }
 };
-
-// const deleteProduct = async () => {
-//   try {
-//     await deleteProduct(product.id);
-//   } catch (error) {
-//     console.error("Error deleting product: ", error);
-//   }
-// };
 
 const confirmUpdate = () => {
   if (confirm("Are you sure you want to update this product?")) {
-    
+    productStore.updateProduct(editedProduct);
   }
 };
 
-// const updateProduct = async () => {
-//   try {
-//     await updateProduct(product.id, editedProduct.data.value);
-//     editMode.value = false;
-//   } catch (error) {
-//     console.error("Error updating product:", error);
-//   }
-// };
 </script>
