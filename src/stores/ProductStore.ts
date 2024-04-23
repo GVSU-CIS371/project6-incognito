@@ -9,6 +9,7 @@ import {
   setDoc,
   doc,
   deleteDoc,
+  addDoc
 } from "firebase/firestore";
 
 // Your web app's Firebase configuration
