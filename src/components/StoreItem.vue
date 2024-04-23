@@ -79,7 +79,7 @@
 import { ref } from "vue";
 import { ProductDoc } from "../types/product.ts";
 // import { deleteProduct, updateProduct } from "@/services/TBD";
-import { useProductStore } from "../stores/ProductStore";
+import { useProductStore, db, doc } from "../stores/ProductStore";
 
 const productStore = useProductStore();
 
