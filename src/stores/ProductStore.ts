@@ -65,10 +65,13 @@ export const useProductStore = defineStore("ProductStore", {
         (product) => product.data.rating >= minRating
       );
     },
-    OriginalProductData(productId: string) {
-      return this.products.filter(
+    originalProductData(productId: string) {
+      return this.products.find(
         (product) => product.id === productId
       );
     },
+    deleteSelected(productId: string){
+      deleteDoc(doc(db, "products", productId));
+    }
   },
 });

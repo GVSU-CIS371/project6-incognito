@@ -98,20 +98,19 @@ const enableEditMode = () => {
 };
 
 const cancelUpdate = () => {
-  const ProductsRef = doc(db, "Products", product.id);
+  const original_product = productStore.products.find((ogproduct) => ogproduct.id === editedProduct.value.id);
+  if(original_product){
+    editedProduct.data.rating = original_product.data.rating;
+    editedProduct.data.name = original_product.data.name;
+    editedProduct.data.description = original_product.data.description;
+    editedProduct.data.stock = original_product.data.stock;
+  }
   editMode.value = false;
-  editedProduct = productStore.originalProduct(product.id);
 };
 
 const confirmDelete = () => {
   if (confirm("Are you sure you want to delete this item?")) {
-    db.collection("products").doc(editedProduct.value.id).delete()
-      .then(() => {
-        console.log("Document successfully deleted!");
-      })
-      .catch((error) => {
-        console.error("Error deleting document: ", error);
-      });
+    productStore.deleteProduct(editedProduct.value.id);
   }
 };
 
@@ -125,20 +124,7 @@ const confirmDelete = () => {
 
 const confirmUpdate = () => {
   if (confirm("Are you sure you want to update this product?")) {
-    db.collection("products").doc(editedProduct.value.id).update({
-      name: editedProduct.value.name,
-      rating: editedProduct.value.rating,
-      price: editedProduct.value.price,
-      description: editedProduct.value.description
-    })
-      .then(() => {
-        console.log("Document successfully updated!");
-        originalProduct.value = JSON.parse(JSON.stringify(editedProduct.value));
-        editMode.value = false;
-      })
-      .catch((error) => {
-        console.error("Error updating document: ", error);
-      });
+    
   }
 };
 
