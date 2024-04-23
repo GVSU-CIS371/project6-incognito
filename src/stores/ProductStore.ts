@@ -25,7 +25,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
 export const useProductStore = defineStore("ProductStore", {
   state: () => ({
@@ -54,6 +54,17 @@ export const useProductStore = defineStore("ProductStore", {
           };
         }) as ProductDoc[];
       }
+      
+    },
+    async addProduct(newProductData: Product) {
+      try {
+        const docRef = await addDoc(collection(db, "products"), newProductData);
+        console.log("Product added with ID: ", docRef.id);
+        // Optionally, you might want to update your state with the new product
+        this.products.push({ id: docRef.id, data: newProductData });
+      } catch (error) {
+        console.error("Error adding product: ", error);
+      }
     },
     filterByCategory(category: string) {
       return this.products.filter(
@@ -72,3 +83,5 @@ export const useProductStore = defineStore("ProductStore", {
     },
   },
 });
+export { doc };
+
