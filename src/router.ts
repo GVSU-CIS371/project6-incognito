@@ -1,5 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from "./components/Home.vue";
+import addItemView from "./components/addItem.vue"; 
+
 const routes = [
   {
     path: "/",
@@ -7,7 +9,11 @@ const routes = [
     props: true,
     component: HomeView,
   },
-  // you need to add more routes here
+  {
+    path: "/add-item",
+    name: "add-item",
+    component: addItemView,
+  },
 ];
 
 const router = createRouter({
