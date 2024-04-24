@@ -11,7 +11,7 @@ import {
   deleteDoc,
   updateDoc,
   addDoc,
-  updateDoc
+  updateDoc,
 } from "firebase/firestore";
 import { update } from "firebase/database";
 
@@ -68,14 +68,12 @@ export const useProductStore = defineStore("ProductStore", {
         console.error("Error adding product: ", error);
       }
     },
-    async updateProduct(updatedData: ProductDoc){
-      try{
+    async updateProduct(updatedData: ProductDoc) {
+      try {
         const docRef = doc(db, "products", updatedData.id);
-        await updateDoc(docRef, {data: updatedData.data});
-        this.products.find(
-          (product) => product.id === updatedData.id
-        );
-      } catch(error) {
+        await updateDoc(docRef, updatedData.data);
+        // this.products.find((product) => product.id === updatedData.id);
+      } catch (error) {
         console.error("Error updating product: ", error);
       }
     },
@@ -89,13 +87,11 @@ export const useProductStore = defineStore("ProductStore", {
         (product) => product.data.rating >= minRating
       );
     },
-    originalProductData(product: ProductDoc) {
-      
-    },
-    async deleteProduct(theProduct: ProductDoc){
-      try{
+    // originalProductData(product: ProductDoc) {},
+    async deleteProduct(theProduct: ProductDoc) {
+      try {
         await deleteDoc(doc(db, "products", theProduct.id));
-      } catch(error){
+      } catch (error) {
         console.error("Error deleting product: ", error);
       }
     },

@@ -70,7 +70,7 @@
     </template>
     <template v-else>
       <v-btn @click="confirmUpdate" color="Success">Update</v-btn>
-      <v-btn @click="cancelUpdate" color="error">Cancel</v-btn> 
+      <v-btn @click="cancelUpdate" color="error">Cancel</v-btn>
     </template>
   </v-card>
 </template>
@@ -104,14 +104,13 @@ const cancelUpdate = () => {
 
 const confirmDelete = () => {
   if (confirm("Are you sure you want to delete this item?")) {
-    productStore.deleteProduct(editedProduct);
+    productStore.deleteProduct(editedProduct.value);
   }
 };
 
 const confirmUpdate = () => {
   if (confirm("Are you sure you want to update this product?")) {
-    productStore.updateProduct(editedProduct);
+    productStore.updateProduct(editedProduct.value);
   }
 };
-
 </script>
