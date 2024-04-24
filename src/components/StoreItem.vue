@@ -105,9 +105,10 @@ const cancelUpdate = () => {
 
 const confirmDelete = () => {
   if (confirm("Are you sure you want to delete this item?")) {
-    productStore.deleteProduct(editedProduct.value);
+    productStore.deleteProduct(editedProduct.value.id);
   }
 };
+
 
 const confirmUpdate = () => {
   if (confirm("Are you sure you want to update this product?")) {

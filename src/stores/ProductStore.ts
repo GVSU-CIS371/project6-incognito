@@ -87,12 +87,10 @@ export const useProductStore = defineStore("ProductStore", {
       );
     },
     // originalProductData(product: ProductDoc) {},
-    async deleteProduct(theProduct: ProductDoc) {
-      try {
-        await deleteDoc(doc(db, "products", theProduct.id));
-      } catch (error) {
-        console.error("Error deleting product: ", error);
-      }
+    async deleteProduct(productId: string) {
+        const docRef = doc(db, "products", productId);
+        await deleteDoc(docRef);
+        this.products = this.products.filter(product => product.id !== productId);
     },
   },
 });
