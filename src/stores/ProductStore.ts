@@ -11,7 +11,6 @@ import {
   deleteDoc,
   updateDoc,
   addDoc,
-  updateDoc,
 } from "firebase/firestore";
 import { update } from "firebase/database";
 
