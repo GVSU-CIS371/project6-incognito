@@ -89,7 +89,8 @@ type ProductType = {
 const props = defineProps<ProductType>();
 
 const editMode = ref(false);
-const editedProduct = ref(props.product);
+const originalProduct = ref(props.product);
+const editedProduct = ref({ ...props.product });
 
 console.log(editedProduct);
 
@@ -97,20 +98,27 @@ const enableEditMode = () => {
   editMode.value = true;
 };
 
-const cancelUpdate = () => {
-  //revert to original changes but how?
+const disableEditMode = () => {
   editMode.value = false;
+}
+
+const cancelUpdate = () => {
+  disableEditMode();
+  location.reload();
 };
 
 const confirmDelete = () => {
   if (confirm("Are you sure you want to delete this item?")) {
     productStore.deleteProduct(editedProduct.value);
+    location.reload();
   }
 };
 
 const confirmUpdate = () => {
   if (confirm("Are you sure you want to update this product?")) {
     productStore.updateProduct(editedProduct.value);
+    location.reload();
   }
+  
 };
 </script>

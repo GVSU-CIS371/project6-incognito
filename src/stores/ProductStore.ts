@@ -11,7 +11,6 @@ import {
   deleteDoc,
   updateDoc,
   addDoc,
-  updateDoc,
 } from "firebase/firestore";
 import { update } from "firebase/database";
 
@@ -87,7 +86,6 @@ export const useProductStore = defineStore("ProductStore", {
         (product) => product.data.rating >= minRating
       );
     },
-    // originalProductData(product: ProductDoc) {},
     async deleteProduct(theProduct: ProductDoc) {
       try {
         await deleteDoc(doc(db, "products", theProduct.id));
