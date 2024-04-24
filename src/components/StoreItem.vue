@@ -89,7 +89,6 @@ type ProductType = {
 const props = defineProps<ProductType>();
 
 const editMode = ref(false);
-const originalProduct = ref(props.product);
 const editedProduct = ref({ ...props.product });
 
 console.log(editedProduct);
