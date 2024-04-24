@@ -68,11 +68,12 @@ export const useProductStore = defineStore("ProductStore", {
       }
     },
     async updateProduct(updatedData: ProductDoc) {
-      try {
-        const docRef = doc(db, "products", updatedData.id);
-        await updateDoc(docRef, updatedData.data);
-        // this.products.find((product) => product.id === updatedData.id);
-      } catch (error) {
+        try {
+          const docRef = doc(db, "products", updatedData.id);
+          await updateDoc(docRef, updatedData.data);
+          // this.products.find((product) => product.id === updatedData.id);
+          window.location.reload();
+        } catch (error) {
         console.error("Error updating product: ", error);
       }
     },
@@ -86,11 +87,12 @@ export const useProductStore = defineStore("ProductStore", {
         (product) => product.data.rating >= minRating
       );
     },
-    // originalProductData(product: ProductDoc) {},
-    async deleteProduct(productId: string) {
-        const docRef = doc(db, "products", productId);
-        await deleteDoc(docRef);
-        this.products = this.products.filter(product => product.id !== productId);
+    async deleteProduct(theProduct: ProductDoc) {
+      try {
+        await deleteDoc(doc(db, "products", theProduct.id));
+      } catch (error) {
+        console.error("Error deleting product: ", error);
+      }
     },
   },
 });
