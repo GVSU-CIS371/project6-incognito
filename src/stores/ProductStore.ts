@@ -90,6 +90,7 @@ export const useProductStore = defineStore("ProductStore", {
     async deleteProduct(theProduct: ProductDoc) {
       try {
         await deleteDoc(doc(db, "products", theProduct.id));
+        window.location.reload();
       } catch (error) {
         console.error("Error deleting product: ", error);
       }
