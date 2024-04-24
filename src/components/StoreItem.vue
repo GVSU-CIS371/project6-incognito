@@ -114,6 +114,7 @@ const confirmDelete = () => {
   }
 };
 
+
 const confirmUpdate = () => {
   if (confirm("Are you sure you want to update this product?")) {
     productStore.updateProduct(editedProduct.value);

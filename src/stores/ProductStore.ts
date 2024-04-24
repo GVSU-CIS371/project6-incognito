@@ -86,12 +86,11 @@ export const useProductStore = defineStore("ProductStore", {
         (product) => product.data.rating >= minRating
       );
     },
-    async deleteProduct(theProduct: ProductDoc) {
-      try {
-        await deleteDoc(doc(db, "products", theProduct.id));
-      } catch (error) {
-        console.error("Error deleting product: ", error);
-      }
+    // originalProductData(product: ProductDoc) {},
+    async deleteProduct(productId: string) {
+        const docRef = doc(db, "products", productId);
+        await deleteDoc(docRef);
+        this.products = this.products.filter(product => product.id !== productId);
     },
   },
 });
